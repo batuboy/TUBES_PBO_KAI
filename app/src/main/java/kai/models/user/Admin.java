@@ -1,6 +1,6 @@
 package kai.models.user;
 
-public class Admin {
-    private String adminId;
-
+public class Admin extends Employee {
+    private String adminID;
+    
 }
