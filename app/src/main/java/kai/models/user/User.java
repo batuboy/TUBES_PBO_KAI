@@ -8,8 +8,7 @@ public abstract class User {
     private String email;
     private String password;
 
-    public User(String userId, String nik, String namaLengkap, String nomorTelepon, String email, String password) {
-        this.userId = userId;
+    public User(String nik, String namaLengkap, String nomorTelepon, String email, String password) {
         this.nik = nik;
         this.namaLengkap = namaLengkap;
         this.nomorTelepon = nomorTelepon;
@@ -63,8 +62,5 @@ public abstract class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    
-    
+    }    
 }

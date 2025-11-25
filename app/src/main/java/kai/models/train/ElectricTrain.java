@@ -3,14 +3,16 @@ package kai.models.train;
 import java.util.List;
 
 import kai.models.train.num.Status;
+import kai.models.train.num.TrainType;
+
 
 public class ElectricTrain extends Locomotive {
     private int voltage;           // misal 1500 V
     private boolean airConditioned; // AC / non-AC
 
     public ElectricTrain(String trainId, String name, List<Railcar> coaches, Status status, int voltage,
-            boolean airConditioned) {
-        super(trainId, name, coaches, status);
+            boolean airConditioned, TrainType trainType) {
+        super(trainId, name, coaches, status, trainType);
         this.voltage = voltage;
         this.airConditioned = airConditioned;
     }

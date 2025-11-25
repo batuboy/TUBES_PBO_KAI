@@ -60,7 +60,4 @@ public class Schedule {
     public void setArrivalTime(LocalDateTime arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
-
-    
-
 }

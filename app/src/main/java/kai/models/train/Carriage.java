@@ -6,10 +6,20 @@ import kai.models.train.num.Status;
 import kai.models.train.num.TrainClass;
 
 public class Carriage extends Railcar {
+    private List<String> seatNumbers; 
 
-    public Carriage(String railcarId, String name, TrainClass trainClass, int capacity, List<String> seatNumbers,
-            Status status) {
-        super(railcarId, name, trainClass, capacity, seatNumbers, status);
+    public Carriage(String railcarId, String name, TrainClass trainClass, Status status, List<String> seatNumbers) {
+        super(railcarId, name, trainClass, status);
+        this.seatNumbers = seatNumbers;
     }
+
+    public List<String> getSeatNumbers() {
+        return seatNumbers;
+    }
+
+    public void setSeatNumbers(List<String> seatNumbers) {
+        this.seatNumbers = seatNumbers;
+    }
+
     
 }

@@ -26,8 +26,6 @@ public class Station {
     }
     public void setCity(String city) {
         this.city = city;
-    }
-
-    
+    }    
 }
 

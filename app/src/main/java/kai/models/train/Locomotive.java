@@ -3,27 +3,29 @@ package kai.models.train;
 import java.util.List;
 
 import kai.models.train.num.Status;
+import kai.models.train.num.TrainType;
 
-public abstract class Locomotive {
-    private String trainId;
+public class Locomotive {
+    private String locomotiveId;
     private String name;
     private List<Railcar> coaches;  // daftar gerbong
-    private Status status; //maintenance or available
-    // private int totalCapacity;      // total kursi seluruh gerbong
+    private TrainType trainType;
+    private Status status; 
     
-    public Locomotive(String trainId, String name, List<Railcar> coaches, Status status) {
-        this.trainId = trainId;
+    public Locomotive(String locomotoviId, String name, List<Railcar> coaches, Status status, TrainType trainType) {
+        this.trainType = trainType;
+        this.locomotiveId = locomotoviId;
         this.name = name;
         this.coaches = coaches;
         this.status = status;
     }
 
-    public String getTrainId() {
-        return trainId;
+    public String getLocotomiveId() {
+        return locomotiveId;
     }
 
-    public void setTrainId(String trainId) {
-        this.trainId = trainId;
+    public void setLocotomiveId(String locomotoviId) {
+        this.locomotiveId = locomotoviId;
     }
 
     public String getName() {
@@ -48,7 +50,6 @@ public abstract class Locomotive {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    
+    }    
 }
+  
