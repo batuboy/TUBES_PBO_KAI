@@ -44,12 +44,21 @@ public class Locomotive {
         this.coaches = coaches;
     }
 
-    public Status getStatus() {
-        return status;
+    public String getStatus() {
+        return status.toString();
     }
 
     public void setStatus(Status status) {
         this.status = status;
     }    
+
+
+    public String getTrainType() {
+        return trainType.toString();
+    }
+
+    public void setTrainType(TrainType trainType) {
+        this.trainType = trainType;
+    }
 }
   

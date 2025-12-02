@@ -4,6 +4,7 @@ public class Station {
     private String stationId;
     private String name;
     private String city;
+
     public Station(String stationId, String name, String city) {
         this.stationId = stationId;
         this.name = name;
@@ -26,6 +27,6 @@ public class Station {
     }
     public void setCity(String city) {
         this.city = city;
-    }    
+    }   
 }
 

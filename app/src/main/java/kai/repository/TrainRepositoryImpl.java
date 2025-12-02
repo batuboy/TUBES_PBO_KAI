@@ -1,31 +1,44 @@
+package kai.repository;
+
+import kai.database.DbConnect;
+import kai.models.train.*;
+import kai.models.train.num.Status;
+import kai.models.train.num.TrainType;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class TrainRepositoryImpl implements ITrainRepository {
     private Connection conn;
 
-    public TrainRepositoryImpl(){
+    public TrainRepositoryImpl() {
         this.conn = DbConnect.getConnection();
     }
 
-    //INSERT
-    @override
-    public void addTrain(Locomotive train){
+    // INSERT
+
+    public void addTrain(Locomotive locomotive) {
         String sql = "INSERT INTO train (train_id, name, status, train_type) VALUES (?, ?, ?, ?)";
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)){
-            ps.setString(1, train.getTrainId());
-            ps.setString(2, train.getName());
-            ps.setString(3, train.getStatus());
-            ps.setString(4, train.getTrainType());
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, locomotive.getLocotomiveId());
+            ps.setString(2, locomotive.getName());
+            ps.setString(3, locomotive.getStatus());
+            ps.setString(4, locomotive.getTrainType());
             ps.executeUpdate();
 
-            if (train instanceof DieselTrain dt){
+            if (locomotive instanceof DieselTrain) {
+                DieselTrain dt = (DieselTrain) locomotive;
                 insertDiesel(dt);
-            }else if (train instanceof ElectricTrain et){
+            } else if (locomotive instanceof ElectricTrain) {
+                ElectricTrain et = (ElectricTrain) locomotive;
                 insertElectric(et);
-            }else if(train instanceof SteamTrain st){
-                insertSteam(st)
+            } else if (locomotive instanceof SteamTrain) {
+                SteamTrain st = (SteamTrain) locomotive;
+                insertSteam(st);
             }
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -33,38 +46,44 @@ public class TrainRepositoryImpl implements ITrainRepository {
     private void insertDiesel(DieselTrain d) throws SQLException {
         String sql = "INSERT INTO diesel_train (train_id, fuel_capacity, fuel_consumption_per_km) VALUES (?, ?, ?)";
 
-        try(PreparedStatement ps = conn.preparesStatement(sql)){
-            ps.setString(1, d.getTrainId());
-            ps.setString(2, d.getFuelCapacity());
-            ps.setString(3, d.getFuelConsumptionPerKm());
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, d.getLocotomiveId());
+            ps.setDouble(2, d.getFuelCapacity());
+            ps.setDouble(3, d.getFuelConsumptionPerKm());
             ps.executeUpdate();
-        }
-    }
-
-    private void insertElectric(ElectricTrain e) {
-        String sql = "INSERT INTO electric_train (train_id, voltage, airConditioned) VALUES (?, ?, ?)";
-        
-        try(PreparedStatement ps = conn.preparedStatment(sql)){
-            ps.setString(1, e.getTrainId());
-            ps.setDouble(2, e.getVoltage());
-            ps.setString(3, e.getAirCondition());
-            ps.executeUpdate();
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private void insertSteam(SteamTrain s) throw SQLException{
-        String sql = "INSERT steam_train (train_id, boil_pressure, water_capacity) VALUES (?, ?, ?)";
+    private void insertElectric(ElectricTrain e) throws SQLException {
+        String sql = "INSERT INTO electric_train (train_id, voltage, airConditioned) VALUES (?, ?, ?)";
 
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, s.getTrainId());
-        ps.setDouble(2, s.getCoalCapacity());
-        ps.setDouble(3, s.getWaterCapacity());
-        ps.executeUpdate();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, e.getLocotomiveId());
+            ps.setDouble(2, e.getVoltage());
+            ps.setBoolean(3, e.isAirConditioned());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
-    public Locomotive getTrainById(String id){
+    private void insertSteam(SteamTrain s) throws SQLException {
+        String sql = "INSERT steam_train (train_id, boil_pressure, water_capacity) VALUES (?, ?, ?)";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, s.getLocotomiveId());
+            ps.setDouble(2, s.getBoilerPressure());
+            ps.setDouble(3, s.getWaterCapacity());
+            ps.executeUpdate();
+        }catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    public Locomotive getLocomotiveById(String id){
         String sql = "SELECT * FROM train WHERE train_id = ?";
 
         try(PreparedStatement ps = conn.prepareStatement(sql)){
@@ -91,8 +110,7 @@ public class TrainRepositoryImpl implements ITrainRepository {
 
     private DieselTrain loadDiesel (String id, String name, Status status) throws SQLException{
         String sql = "SELECT * FROM diesel_train WHERE train_id = ?";
-        PreparedS
-atement ps = conn.prepareStatement(sql);
+        PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, id);
         ResultSet rs = ps.executeQuery();
 
@@ -106,7 +124,6 @@ atement ps = conn.prepareStatement(sql);
 
         return null;
     }
-
 
     private ElectricTrain loadElectric (String id, String name, Status status) throws SQLException {
         String sql = "SELECT * FROM electric_train WHERE id = ?";
@@ -124,7 +141,6 @@ atement ps = conn.prepareStatement(sql);
         return null;
     }
 
-    
     private SteamAll loadSteam (String id, String name, Status status) throws SQLException {
         String sql = "SELECT * FROM electric_train WHERE id = ?";
 
@@ -170,21 +186,20 @@ atement ps = conn.prepareStatement(sql);
         }
 
         return list;
-    }  
+    }
 
-    //UPDATE
+    // UPDATE
 
     public void updateTrain(Locomotive train) {
         String sql = "UPDATE train SET name = ?, status =?, train_type = ? WHERE train_id = ?";
 
-        try (PreparedStatement ps = conn.preparedStatement(sql)){
+        try (PreparedStatement ps = conn.preparedStatement(sql)) {
             ps.setString(1, train.getName());
             ps.setString(2, train.getStatus().name());
             ps.setString(3, train.getTrainType().name());
             ps.setString(4, train.getTrainId());
             ps.executeUpdate();
 
-            
             if (train instanceof DieselTrain dt) {
                 updateDiesel(dt);
             } else if (train instanceof ElectricTrain et) {
@@ -193,12 +208,12 @@ atement ps = conn.prepareStatement(sql);
                 updateSteam(st);
             }
 
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-       private void updateDiesel(DieselTrain d) throws SQLException {
+    private void updateDiesel(DieselTrain d) throws SQLException {
         String sql = "UPDATE diesel_train SET fuel_capacity = ?, fuel_consumption_per_km = ? WHERE train_id = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setDouble(1, d.getFuelCapacity());
@@ -246,4 +261,5 @@ atement ps = conn.prepareStatement(sql);
         conn.prepareStatement("DELETE FROM electric_train WHERE train_id = '" + id + "'").executeUpdate();
         conn.prepareStatement("DELETE FROM steam_train WHERE train_id = '" + id + "'").executeUpdate();
     }
+
 }

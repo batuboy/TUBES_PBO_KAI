@@ -2,19 +2,19 @@ package kai.models.train;
 
 import java.util.List;
 
+import kai.models.train.num.RailcarType;
 import kai.models.train.num.TrainClass;
 import kai.models.train.num.Status;
 
 public abstract class Railcar {
     private String railcarId; 
     private String name;
-    private TrainClass trainClass; 
+    private RailcarType type; 
     private Status status;
     
-    public Railcar(String railcarId, String name, TrainClass trainClass, Status status) {
+    public Railcar(String railcarId, String name, RailcarType type, Status status) {
         this.railcarId = railcarId;
         this.name = name;
-        this.trainClass = trainClass;
         this.status = status;
     }
 
@@ -34,14 +34,6 @@ public abstract class Railcar {
         this.name = name;
     }
 
-    public TrainClass getTrainClass() {
-        return trainClass;
-    }
-
-    public void setTrainClass(TrainClass trainClass) {
-        this.trainClass = trainClass;
-    }
-
     public Status getStatus() {
         return status;
     }
@@ -49,7 +41,5 @@ public abstract class Railcar {
     public void setStatus(Status status) {
         this.status = status;
     } 
-
-    
     
 }

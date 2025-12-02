@@ -32,7 +32,5 @@ public class ElectricTrain extends Locomotive {
     public void setAirConditioned(boolean airConditioned) {
         this.airConditioned = airConditioned;
     }
-
-    
     
 }

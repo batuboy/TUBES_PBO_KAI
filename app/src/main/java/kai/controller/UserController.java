@@ -9,8 +9,8 @@ public class UserController {
         userRepository = new UserRepository();
     }
 
-    public void register(String nik, String namaLengkap, String nomorTelepon, String email, String password) {
-        this.userRepository.register(new User(nik, namaLengkap, nomorTelepon, email, password));
+    public boolean register(String nik, String namaLengkap, String nomorTelepon, String email, String password) {
+        return userRepository.register(new User(nik, namaLengkap, nomorTelepon, email, password));
     }
 
     public User login(String email, String password) {

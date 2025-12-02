@@ -16,5 +16,21 @@ public class DieselTrain extends Locomotive {
         this.fuelConsumptionPerKm = fuelConsumptionPerKm;
     }
 
+    public double getFuelCapacity() {
+        return fuelCapacity;
+    }
+
+    public void setFuelCapacity(double fuelCapacity) {
+        this.fuelCapacity = fuelCapacity;
+    }
+
+    public double getFuelConsumptionPerKm() {
+        return fuelConsumptionPerKm;
+    }
+
+    public void setFuelConsumptionPerKm(double fuelConsumptionPerKm) {
+        this.fuelConsumptionPerKm = fuelConsumptionPerKm;
+    }
+
     
 } 

@@ -10,8 +10,7 @@ import kai.models.user.User;
 
 public class UserRepository {
     
-
-    public void register(User user) {
+    public boolean register(User user) {
         String sql = "INSERT INTO user (nik, namaLengkap, nomorTelepon, email,  password) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DbConnect.getConnection();
@@ -28,6 +27,8 @@ public class UserRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return true;
     }
 
     public User login(String email, String password) {
@@ -55,5 +56,21 @@ public class UserRepository {
         }
         return null; // login failed
     }
+
+    public boolean isEmailRegistered(String email) {
+    String sql = "SELECT * FROM user WHERE email = ?";
+    try (Connection conn = DbConnect.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, email);
+        try (ResultSet rs = ps.executeQuery()) {
+            return rs.next(); // true if email exists
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return false;
+    
+}
+
 
 }

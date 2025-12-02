@@ -17,24 +17,22 @@ public class RailCarRepository{
         dbConnect = new DbConnect();
     }
     
-    public void addRailCar(Railcar railcar){
-        String sqlRailcar = "INSERT INTO railcar(railcar_id, name, train_class, capacity, status) VALUES (?, ?, ?, ?, ?)";
+    public void addCarriage(Carriage carriage){
+        String sqlCarriage = "INSERT INTO carriage(railcar_id, train_class, capacity) VALUES (?, ?, ?, ?, ?)";
         String sqlSeat = "INSERT INTO railcar_seats(railcar_id, seat_number, status) VALUES (?,?,?)";
 
         try (Connection conn = DbConnect.getConnection()) {
-            PreparedStatement psRailcar = conn.prepareStatement(sqlRailcar);
-            psRailcar.setString(1, railcar.getRailcarId());
-            psRailcar.setString(2, railcar.getName());
-            psRailcar.setString(3, railcar.getTrainClass().name());
-            psRailcar.setInt(4, railcar.getCapacity());
-            psRailcar.setString(5, railcar.getStatus().name());
-            psRailcar.executeUpdate();
+            PreparedStatement psCarriage = conn.prepareStatement(sqlCarriage);
+            psCarriage.setString(1, carriage.getRailcarId());
+            psCarriage.setString(2, carriage.getTrainClass().name());
+            psCarriage.setInt(3, carriage.getCapacity());
+            psCarriage.execute();
             
             PreparedStatement psSeat = conn.prepareStatement(sqlSeat);
-            for (String seat : railcar.getSearNumbers()) { 
-                psSeat.setString(1, railcar.getRailcardId());
-                psSeat.setString(2, seat);
-                psSeat.setString(3, "AVAILABLE"); 
+            for (int i = 0; i > carriage.getSeat().size(); i++) { 
+                psSeat.setString(1, carriage.getRailcarId());
+                psSeat.setString(2, carriage.getSeat().get(i).getSeatNumber());
+                psSeat.setString(3, carriage.getSeat().get(i).getSeatStatus()); 
                 psSeat.addBatch();
             }
             psSeat.executeBatch();
@@ -42,19 +40,40 @@ public class RailCarRepository{
         }
     }
 
-    public void addWagon(Railcar wagon){
+    public void addRailcar(Railcar railcar){
+        String sqlRailcar = "INSERT INTO Railcar(railcar_id, name, type, status) VALUES(?, ?, ?, ?)";
+        
+        try(Connection conn = DbConnect.getConnection()){
+            PreparedStatement psRailcar = conn.prepareStatement(sqlRailcar);
+            psRailcar.setString(1, railcar.getRailcarId());
+            psRailcar.setString(2, railcar.getName());
+            psRailcar.setString(3, );
+        }catch(Exception e){
 
-        String sql = "INSERT INTO wagon (trainId, ) VALUES (?, ?, ?, ?, ?)";
+        }
     }
 
-    public void addCarriage(Railcar carriage){
+    public void addWagon(Wagon wagon){
+        String sqlWagon = "INSERT INTO wagon (trainId, name, cargoCapacity, type) VALUES (?, ?, ?, ?)";
+        try (Connection conn = DbConnect.getConnection()){
+            PreparedStatement psWagon = conn.prepareStatement(sqlWagon);
+            psWagon.setString(1, wagon.getRailcarId());
+            psWagon.setString(2, wagon.getName());
+            psWagon.setDouble(3, wagon.getCargoCapacity());
+            psWagon.execute();
+        } catch (Exception e) {
+        }
+
+    }
+
+    public void addRailCar(Carriage carriage){
         // Similar to addRailCar but specific to carriages if needed
     }
 
     public Railcar getRailcarById(String railcarId){
         String sqlRailcar = "SELECT * FROM railcar WHERE railcar_id = ?";
-        String sqlSeats = "SELECT seat_number FROM railcar_seats WHERE rilcar_id = ?";
-        
+        String sqlSeats = "SELECT seat_number FROM railcar_seats WHERE railcar_id = ?";
+     
         try (Connection conn = DbConnect.getConnection()) {
             PreparedStatement psRailcar = conn.prepareStatement(sqlRailcar);
             psRailcar.setString(1, railcarId);
@@ -65,7 +84,6 @@ public class RailCarRepository{
                 TrainClass trainClass = Railcar.TrainClass.valueOf(rsRailcar.getString("train_class"));
                 int capacity = rsRailcar.getInt("capacity");
                 Status status = status.valueOf(rsRailcar.getString("status"));
-                
             }            
         }catch (Exception e){
             e.printStackTrace();
