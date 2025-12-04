@@ -18,14 +18,13 @@ public class RailCarRepository{
     }
     
     public void addCarriage(Carriage carriage){
-        String sqlCarriage = "INSERT INTO carriage(railcar_id, train_class, capacity) VALUES (?, ?, ?, ?, ?)";
+        String sqlCarriage = "INSERT INTO carriage(railcar_id, capacity) VALUES (?, ?)";
         String sqlSeat = "INSERT INTO railcar_seats(railcar_id, seat_number, status) VALUES (?,?,?)";
 
         try (Connection conn = DbConnect.getConnection()) {
             PreparedStatement psCarriage = conn.prepareStatement(sqlCarriage);
             psCarriage.setString(1, carriage.getRailcarId());
-            psCarriage.setString(2, carriage.getTrainClass().name());
-            psCarriage.setInt(3, carriage.getCapacity());
+            psCarriage.setInt(2, carriage.getCapacity());
             psCarriage.execute();
             
             PreparedStatement psSeat = conn.prepareStatement(sqlSeat);
@@ -47,19 +46,19 @@ public class RailCarRepository{
             PreparedStatement psRailcar = conn.prepareStatement(sqlRailcar);
             psRailcar.setString(1, railcar.getRailcarId());
             psRailcar.setString(2, railcar.getName());
-            psRailcar.setString(3, );
+            psRailcar.setString(3, railcar.getRailcarType());
+            psRailcar.execute();
         }catch(Exception e){
 
         }
     }
 
     public void addWagon(Wagon wagon){
-        String sqlWagon = "INSERT INTO wagon (trainId, name, cargoCapacity, type) VALUES (?, ?, ?, ?)";
+        String sqlWagon = "INSERT INTO wagon (trainId, cargoCapacity) VALUES (?, ?)";
         try (Connection conn = DbConnect.getConnection()){
             PreparedStatement psWagon = conn.prepareStatement(sqlWagon);
             psWagon.setString(1, wagon.getRailcarId());
-            psWagon.setString(2, wagon.getName());
-            psWagon.setDouble(3, wagon.getCargoCapacity());
+            psWagon.setDouble(2, wagon.getCargoCapacity());
             psWagon.execute();
         } catch (Exception e) {
         }

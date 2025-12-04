@@ -15,6 +15,7 @@ public class EmployeeRepository {
     private final UserRepository userRepo;
 
     public EmployeeRepository(){
+        userRepo = new UserRepository();
         dbConnect = new DbConnect();
     }
 
@@ -33,7 +34,8 @@ public class EmployeeRepository {
             ps.setString(3, emp.getNomorTelepon());
             ps.setString(4, emp.getEmail());
             ps.setString(5, emp.getPassword());
-            ps.setString(6, emp.getE)
+            ps.setString(6, emp.getEmployeeId());
+            ps.setString(7, emp.getSalary());
         } catch (Exception e) {
         }
 
