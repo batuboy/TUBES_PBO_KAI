@@ -7,7 +7,7 @@ import kai.models.train.num.TrainClass;
 import kai.models.train.num.Status;
 import kai.models.train.num.TrainType;
 
-public abstract class Railcar {
+public class Railcar {
     private String railcarId; 
     private String name;
     private RailcarType type; 

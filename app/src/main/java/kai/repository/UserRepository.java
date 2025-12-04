@@ -3,18 +3,18 @@ package kai.repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import kai.database.DbConnect;
 import kai.models.user.Passenger;
 import kai.models.user.User;
 
 public class UserRepository {
-    
+
     public boolean register(User user) {
         String sql = "INSERT INTO user (nik, namaLengkap, nomorTelepon, email,  password) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection conn = DbConnect.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DbConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, user.getNik());
             ps.setString(2, user.getNamaLengkap());
@@ -23,16 +23,16 @@ public class UserRepository {
             ps.setString(5, user.getPassword());
 
             ps.executeUpdate();
-
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return true;
+        return false;
     }
 
     public User login(String email, String password) {
-        String sql = "SELECT * FROM users WHERE email = ? AND password = ?" ;
+        String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
 
         try {
             PreparedStatement ps = DbConnect.getConnection().prepareStatement(sql);
@@ -43,12 +43,11 @@ public class UserRepository {
 
             if (rs.next()) {
                 return new Passenger(
-                    rs.getString("nik"),
-                    rs.getString("namaLengkap"),
-                    rs.getString("email"),
-                    rs.getString("telepon"),
-                    rs.getString("password")
-                );
+                        rs.getString("nik"),
+                        rs.getString("namaLengkap"),
+                        rs.getString("email"),
+                        rs.getString("telepon"),
+                        rs.getString("password"));
             }
 
         } catch (Exception e) {
@@ -58,19 +57,44 @@ public class UserRepository {
     }
 
     public boolean isEmailRegistered(String email) {
-    String sql = "SELECT * FROM user WHERE email = ?";
-    try (Connection conn = DbConnect.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setString(1, email);
-        try (ResultSet rs = ps.executeQuery()) {
-            return rs.next(); // true if email exists
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    return false;
-    
-}
+        String sql = "SELECT * FROM user WHERE email = ?";
 
+        try (Connection conn = DbConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, email);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next(); // true if email exists
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+
+    public User getUserById(String id) {
+        String sql = "SELECT * FROM user WHERE userId = ?";
+
+        try (Connection conn = DbConnect.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setString(1, id); // set the parameter
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                // Construct User object from the result
+                return new Passenger(
+                        rs.getString("nik"),
+                        rs.getString("namaLengkap"),
+                        rs.getString("nomorTelepon"),
+                        rs.getString("email"),
+                        rs.getString("password"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); //
+        }
+
+        return null; // not found
+    }
 
 }

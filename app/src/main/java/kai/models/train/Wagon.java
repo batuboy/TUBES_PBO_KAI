@@ -4,7 +4,7 @@ import java.util.List;
 
 import kai.models.train.num.RailcarType;
 import kai.models.train.num.Status;
-import kai.models.train.num.TrainClass;
+
 
 public class Wagon extends Railcar {
     private double cargoCapacity; 

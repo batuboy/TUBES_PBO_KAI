@@ -7,7 +7,7 @@ public class Machinist extends Employee {
 
     public Machinist(String userId, String nik, String namaLengkap, String nomorTelepon, String email, String password,
             String employeeId, Position position, double salary, String licenseNumber) {
-        super(userId, nik, namaLengkap, nomorTelepon, email, password, employeeId, position, salary);
+        super(nik, namaLengkap, nomorTelepon, email, password, employeeId, position, salary);
         this.licenseNumber = licenseNumber;
     }
 

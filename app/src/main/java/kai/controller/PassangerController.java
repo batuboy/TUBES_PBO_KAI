@@ -1,13 +1,16 @@
-public class PassangerController{
-    
+import kai.models.user.Passenger;
+import kai.repository.UserRepository;
+
+public class PassangerController {
+
     private final UserRepository userRepo;
 
-    public PassangerController(){
+    public PassangerController() {
         userRepo = new userRepo();
     }
 
-     public boolean register(String nik, String fullName, String email, String phone, String password) {
-        
+    public boolean register(String nik, String fullName, String email, String phone, String password) {
+
         if (userRepo.isEmailRegistered(email)) {
             return false;
         }

@@ -1,3 +1,8 @@
+package kai.controller;
+
+import kai.repository.StationRepository;
+import kai.models/
+
 public class StationController {
 
     private final StationRepository stationRepo;

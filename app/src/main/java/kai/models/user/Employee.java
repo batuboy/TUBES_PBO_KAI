@@ -7,9 +7,9 @@ public class Employee extends User {
     private Position position;   
     private double salary;
     
-    public Employee(String userId, String nik, String namaLengkap, String nomorTelepon, String email, String password,
+    public Employee(String nik, String namaLengkap, String nomorTelepon, String email, String password,
             String employeeId, Position position, double salary) {
-        super(userId, nik, namaLengkap, nomorTelepon, email, password);
+        super(nik, namaLengkap, nomorTelepon, email, password);
         this.employeeId = employeeId;
         this.position = position;
         this.salary = salary;
@@ -23,8 +23,8 @@ public class Employee extends User {
         this.employeeId = employeeId;
     }
 
-    public Position getPosition() {
-        return position;
+    public String getPosition() {
+        return String.valueOf(position);
     }
 
     public void setPosition(Position position) {

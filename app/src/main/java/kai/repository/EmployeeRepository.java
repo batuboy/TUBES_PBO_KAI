@@ -1,7 +1,9 @@
 package kai.repository;
 
 import kai.models.user.Employee;
+import kai.models.user.User;
 import kai.models.user.Admin;
+import kai.models.user.Conductor;
 import kai.models.user.num.Position;
 import kai.database.DbConnect;
 
@@ -11,173 +13,100 @@ import java.util.List;
 
 public class EmployeeRepository {
 
-    private DbConnect dbConnect; 
+    private DbConnect dbConnect;
     private final UserRepository userRepo;
 
-    public EmployeeRepository(){
+    public EmployeeRepository() {
         userRepo = new UserRepository();
         dbConnect = new DbConnect();
     }
 
-    //admin, disptacher
-    public boolean addEmployee(Employee emp){
-       
-        boolean userCreated = userRepo.register(emp);
-        
-        if(!userCreated) return false;
-        String sql = "INSERT employee INTO (nik, namaLengkap, nomorTelepon, email, password, employeeId, position, salary) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    // admin, disptacher
+    public boolean addEmployee(Employee emp) {
 
-        try (Connection conn = DbConnect.getConnection()){
+        boolean userCreated = userRepo.register(emp);
+
+        if (!userCreated)
+            return false;
+        String sql = "INSERT employee INTO (nik, employeeId, position, salary) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = DbConnect.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, emp.getNik());
-            ps.setString(2, emp.getNamaLengkap());
-            ps.setString(3, emp.getNomorTelepon());
-            ps.setString(4, emp.getEmail());
-            ps.setString(5, emp.getPassword());
-            ps.setString(6, emp.getEmployeeId());
-            ps.setString(7, emp.getSalary());
+            ps.setString(1, emp.getUserId());
+            ps.setString(2, emp.getEmployeeId());
+            ps.setString(3, emp.getPosition());
+            ps.setDouble(4, emp.getSalary());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // conductor table is subtype of employee
+    public boolean addEmployee(Conductor conductor) {
+
+        boolean userCreated = userRepo.register(conductor);
+        if (!userCreated)
+            return false;
+
+        boolean empCreated = addEmployee((Employee) conductor);
+        if (!empCreated)
+            return false;
+
+        String sql = "INSERT conductor INTO (employeeId, areaAssignedId) VALUES (?, ?)";
+        try (Connection conn = DbConnect.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, conductor.getEmployeeId());
+            ps.setString(2, conductor.getStationAssigned().getStationId());
+            ps.executeUpdate();
+            return true;
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public Employee getEmployeeById(String empId) {
+        String sql = "SELECT * FROM employee WHERE employeeId = ?";
+
+        try (Connection conn = DbConnect.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, empId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String positionStr = rs.getString("position");
+                Position position = Position.valueOf(positionStr);
+                String userId = rs.getString("userId");
+                double salary = rs.getDouble("salary");
+
+                User user = userRepo.getUserById(userId);
+                if (user == null) return null;
+
+                return new Employee(
+                        user.getNik(),
+                        user.getNamaLengkap(),
+                        user.getNomorTelepon(),
+                        user.getEmail(),
+                        user.getPassword(),
+                        empId,
+                        position,
+                        salary);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        return true;
+        return null; // not found
     }
 
-    public void addEmployee(Conductor conductor){
-        
-    }
-
-    public Employee getEmployeeById(String empId){
+    public void updateEmployee(Employee emp) {
 
     }
 
-    public List<Employee> getAllEmployees(){
+    public void deleteEmployee(String empId) {
 
     }
-
-    public void updateEmployee(Employee emp){
-
-    }
-
-    public void deleteEmployee(String empId){
-
-    }
-
-    // public boolean save(Employee emp) {
-    //     String sql = "INSERT INTO employees (user_id, nik, nama_lengkap, nomor_telepon, email, password, "
-    //             + "employee_id, position, salary, admin_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    //     try (Connection conn = DbConnect.getConnection();
-    //          PreparedStatement ps = conn.prepareStatement(sql)) {
-
-    //         ps.setString(1, emp.getUserId());
-    //         ps.setString(2, emp.getNik());
-    //         ps.setString(3, emp.getNamaLengkap());
-    //         ps.setString(4, emp.getNomorTelepon());
-    //         ps.setString(5, emp.getEmail());
-    //         ps.setString(6, emp.getPassword());
-    //         ps.setString(7, emp.getEmployeeId());
-    //         ps.setString(8, emp.getPosition().name());
-    //         ps.setDouble(9, emp.getSalary());
-            
-    //         return ps.executeUpdate() > 0;
-
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         return false;
-    //     }
-    // }
-
-    
-    // public Employee findByEmployeeId(String id) {
-    //     String sql = "SELECT * FROM employees WHERE employee_id = ?";
-
-    //     try (Connection conn = DbConnect.getConnection();
-    //          PreparedStatement ps = conn.prepareStatement(sql)) {
-
-    //         ps.setString(1, id);
-    //         ResultSet rs = ps.executeQuery();
-
-    //         if (rs.next()) {
-    //             return mapToEmployee(rs);
-    //         }
-
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
-
-    //     return null;
-    // }
-
-
-    // public Employee login(String email, String password) {
-    //     String sql = "SELECT * FROM employees WHERE email = ? AND password = ?";
-
-    //     try (Connection conn = DbConnect.getConnection();
-    //          PreparedStatement ps = conn.prepareStatement(sql)) {
-
-    //         ps.setString(1, email);
-    //         ps.setString(2, password);
-
-    //         ResultSet rs = ps.executeQuery();
-    //         if (rs.next()) {
-    //             return mapToEmployee(rs);
-    //         }
-
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
-
-    //     return null;
-    // }
-
-
-    // public List<Employee> getAll() {
-    //     String sql = "SELECT * FROM employees";
-    //     List<Employee> list = new ArrayList<>();
-
-    //     try (Connection conn = DbConnect.getConnection();
-    //          Statement st = conn.createStatement();
-    //          ResultSet rs = st.executeQuery(sql)) {
-
-    //         while (rs.next()) {
-    //             list.add(mapToEmployee(rs));
-    //         }
-
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
-
-    //     return list;
-    // }
-
-
-    // private Employee mapToEmployee(ResultSet rs) throws Exception {
-    //     boolean isAdmin = rs.getString("admin_id") != null;
-
-    //     if (isAdmin) {
-    //         return new Admin(
-    //                 rs.getString("user_id"),
-    //                 rs.getString("nik"),
-    //                 rs.getString("nama_lengkap"),
-    //                 rs.getString("nomor_telepon"),
-    //                 rs.getString("email"),
-    //                 rs.getString("password"),
-    //                 rs.getString("employee_id"),
-    //                 Position.valueOf(rs.getString("position")),
-    //                 rs.getDouble("salary")
-    //         );
-    //     }
-
-    //     return new Employee(
-    //             rs.getString("user_id"),
-    //             rs.getString("nik"),
-    //             rs.getString("nama_lengkap"),
-    //             rs.getString("nomor_telepon"),
-    //             rs.getString("email"),
-    //             rs.getString("password"),
-    //             rs.getString("employee_id"),
-    //             Position.valueOf(rs.getString("position")),
-    //             rs.getDouble("salary")
-    //     );
-    // }
 }

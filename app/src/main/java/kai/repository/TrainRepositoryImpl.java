@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class TrainRepositoryImpl implements ITrainRepository {
-    private Connection conn;
+    private final Connection conn;
 
     public TrainRepositoryImpl() {
         this.conn = DbConnect.getConnection();
@@ -91,7 +91,7 @@ public class TrainRepositoryImpl implements ITrainRepository {
             ResultSet rs = ps.executeQuery();
 
             if(rs.next()){
-                TrainType TrainType.valueOf(rs.getString("train_type"));
+                TrainType tc = TrainType.valueOf(rs.getString("train_type"));
                 Status status = Status.valueOf(rs.getString("status"));
                 String name = rs.getString("name");
 
