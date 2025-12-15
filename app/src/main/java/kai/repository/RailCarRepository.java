@@ -4,6 +4,7 @@ import kai.models.train.*;
 import kai.models.train.num.*;
 
 import java.sql.ResultSet;
+import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -64,7 +65,6 @@ public class RailCarRepository{
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 
@@ -181,6 +181,11 @@ public class RailCarRepository{
         }
 
         return false;
+    }
+
+    public List<Railcar> getCoachesByTrainId(String trainId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getCoachesByTrainId'");
     }
 
 }

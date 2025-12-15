@@ -1,5 +1,8 @@
 package kai.models.train;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 import kai.models.train.num.Status;
@@ -10,9 +13,9 @@ public class ElectricTrain extends Locomotive {
     private int voltage;           // misal 1500 V
     private boolean airConditioned; // AC / non-AC
 
-    public ElectricTrain(String trainId, String name, List<Railcar> coaches, Status status, int voltage,
-            boolean airConditioned, TrainType trainType) {
-        super(trainId, name, coaches, status, trainType);
+    public ElectricTrain(String trainId, String name, int traction, Status status, int voltage,
+            boolean airConditioned) {
+        super(trainId, name, traction, status, TrainType.ELECTRIC);
         this.voltage = voltage;
         this.airConditioned = airConditioned;
     }
@@ -25,12 +28,14 @@ public class ElectricTrain extends Locomotive {
         this.voltage = voltage;
     }
 
-    public boolean isAirConditioned() {
+    public boolean getAirConditioned() {
         return airConditioned;
     }
 
     public void setAirConditioned(boolean airConditioned) {
         this.airConditioned = airConditioned;
     }
+
+    
     
 }

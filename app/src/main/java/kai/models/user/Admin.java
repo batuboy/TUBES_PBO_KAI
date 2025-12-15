@@ -3,19 +3,9 @@ package kai.models.user;
 import kai.models.user.num.Position;
 
 public class Admin extends Employee {
-    // private String adminID;
 
-    public Admin(String userId, String nik, String namaLengkap, String nomorTelepon, String email, String password,
-            String employeeId, Position position, double salary) {
-        super(nik, namaLengkap, nomorTelepon, email, password, employeeId, position, salary);
-        // this.adminID = adminID;
+    public Admin(String nik, String namaLengkap, String nomorTelepon, String email, String password, String employeeId, double salary) {
+        super(nik, namaLengkap, nomorTelepon, email, password, employeeId, Position.ADMIN, salary);
+        //TODO Auto-generated constructor stub
     }
-
-    // public String getAdminID() {
-    //     return adminID;
-    // }
-
-    // public void setAdminID(String adminID) {
-    //     this.adminID = adminID;
-    // }    
 }

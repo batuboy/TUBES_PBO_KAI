@@ -1,30 +1,32 @@
 package kai.models.train;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import kai.models.train.num.Status;
 import kai.models.train.num.TrainType;
 
-public class Locomotive {
+public abstract class Locomotive {
     private String locomotiveId;
     private String name;
-    private List<Railcar> coaches;  // daftar gerbong
+    // private List<Railcar> coaches;  // daftar gerbong
     private TrainType trainType;
     private Status status; 
+    private int traction;
     
-    public Locomotive(String locomotoviId, String name, List<Railcar> coaches, Status status, TrainType trainType) {
+    public Locomotive(String locomotoviId, String name, int traction, Status status, TrainType trainType) {
         this.trainType = trainType;
         this.locomotiveId = locomotoviId;
         this.name = name;
-        this.coaches = coaches;
+        this.traction = traction;
         this.status = status;
     }
-
-    public String getLocotomiveId() {
+    public String getLocomotiveId() {
         return locomotiveId;
     }
 
-    public void setLocotomiveId(String locomotoviId) {
+    public void setLocomotiveId(String locomotoviId) {
         this.locomotiveId = locomotoviId;
     }
 
@@ -36,13 +38,6 @@ public class Locomotive {
         this.name = name;
     }
 
-    public List<Railcar> getCoaches() {
-        return coaches;
-    }
-
-    public void setCoaches(List<Railcar> coaches) {
-        this.coaches = coaches;
-    }
 
     public String getStatus() {
         return status.toString();
@@ -60,5 +55,13 @@ public class Locomotive {
     public void setTrainType(TrainType trainType) {
         this.trainType = trainType;
     }
+    public int getTraction() {
+        return traction;
+    }
+    public void setTraction(int traction) {
+        this.traction = traction;
+    }
+
+    
 }
   

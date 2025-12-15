@@ -1,5 +1,8 @@
 package kai.models.train;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 import kai.models.train.num.Status;
@@ -9,9 +12,9 @@ public class SteamTrain extends Locomotive {
     private double boilerPressure; // tekanan uap
     private double waterCapacity;  // liter air untuk uap
 
-    public SteamTrain(String trainId, String name, List<Railcar> coaches, Status status, double boilerPressure,
-            double waterCapacity, TrainType trainType) {
-        super(trainId, name, coaches, status, trainType);
+    public SteamTrain(String trainId, String name, int traction, Status status, double boilerPressure,
+            double waterCapacity) {
+        super(trainId, name, traction, status, TrainType.STEAM);
         this.boilerPressure = boilerPressure;
         this.waterCapacity = waterCapacity;
     }
@@ -30,5 +33,6 @@ public class SteamTrain extends Locomotive {
 
     public void setWaterCapacity(double waterCapacity) {
         this.waterCapacity = waterCapacity;
-    }    
+    }
+
 }

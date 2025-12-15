@@ -18,82 +18,82 @@ public class RouteRepository {
         dbConnect = new DbConnect();
     }
 
-    public void addRoute(Route route) {
-        String sqlRoute = "INSERT INTO Routes (route_id, origin_id, destination_id) VALUES (?, ?, ?)";
-        String sqlStops = "INSERT INTO Route_Stops (route_id, station_id,  stop_order) VALUES (?, ?, ?)";
+    // public void addRoute(Route route) {
+    //     String sqlRoute = "INSERT INTO Routes (route_id, origin_id, destination_id) VALUES (?, ?, ?)";
+    //     String sqlStops = "INSERT INTO Route_Stops (route_id, station_id,  stop_order) VALUES (?, ?, ?)";
 
-        try (Connection conn = dbConnect.getConnection()) {
+    //     try (Connection conn = dbConnect.getConnection()) {
 
-            PreparedStatement psRoute = conn.prepareStatement(sqlRoute);
-            psRoute.setString(1, route.getRouteId());
-            psRoute.setString(2, route.getOrigin());
-            psRoute.setString(3, route.getDestination());
-            psRoute.executeUpdate();
+    //         PreparedStatement psRoute = conn.prepareStatement(sqlRoute);
+    //         psRoute.setString(1, route.getRouteId());
+    //         psRoute.setString(2, route.getOrigin());
+    //         psRoute.setString(3, route.getDestination());
+    //         psRoute.executeUpdate();
 
-            PreparedStatement psStops = conn.prepareStatement(sqlStops);
-            int order = 1;
+    //         PreparedStatement psStops = conn.prepareStatement(sqlStops);
+    //         int order = 1;
 
-            for (String stationId : route.getStops()) {
-                psStops.setString(1, route.getRouteId());
-                psStops.setString(2, stationId);
-                psStops.setInt(3, order);
-                psStops.executeUpdate();
-                order++;
-            }
+    //         for (String stationId : route.getStops()) {
+    //             psStops.setString(1, route.getRouteId());
+    //             psStops.setString(2, stationId);
+    //             psStops.setInt(3, order);
+    //             psStops.executeUpdate();
+    //             order++;
+    //         }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
-    public Route getRouteById(String routeId) {
-        String sqlRoute = "SELECT origin_id, destination_id FROM Routes WHERE route_id = ?";
-        String sqlStops = "SELECT rs.station_id, s.name, s.city " +
-                "FROM Route_Stops rs " +
-                "JOIN Stations s ON rs.station_id = s.station_id " +
-                "WHERE rs.route_id = ? " +
-                "ORDER BY rs.stop_order";
+    // public Route getRouteById(String routeId) {
+    //     String sqlRoute = "SELECT origin_id, destination_id FROM Routes WHERE route_id = ?";
+    //     String sqlStops = "SELECT rs.station_id, s.name, s.city " +
+    //             "FROM Route_Stops rs " +
+    //             "JOIN Stations s ON rs.station_id = s.station_id " +
+    //             "WHERE rs.route_id = ? " +
+    //             "ORDER BY rs.stop_order";
 
-        try (Connection conn = dbConnect.getConnection()) {
+    //     try (Connection conn = dbConnect.getConnection()) {
 
-            // Ambil origin dan destination
-            PreparedStatement psRoute = conn.prepareStatement(sqlRoute);
-            psRoute.setString(1, routeId);
-            ResultSet rsRoute = psRoute.executeQuery();
+    //         // Ambil origin dan destination
+    //         PreparedStatement psRoute = conn.prepareStatement(sqlRoute);
+    //         psRoute.setString(1, routeId);
+    //         ResultSet rsRoute = psRoute.executeQuery();
 
-            String originId = "";
-            String destinationId = "";
-            if (rsRoute.next()) {
-                originId = rsRoute.getString("origin_id");
-                destinationId = rsRoute.getString("destination_id");
-            }
+    //         String originId = "";
+    //         String destinationId = "";
+    //         if (rsRoute.next()) {
+    //             originId = rsRoute.getString("origin_id");
+    //             destinationId = rsRoute.getString("destination_id");
+    //         }
 
-            // Ambil daftar station (stops)
-            PreparedStatement psStops = conn.prepareStatement(sqlStops);
-            psStops.setString(1, routeId);
-            ResultSet rsStops = psStops.executeQuery();
+    //         // Ambil daftar station (stops)
+    //         PreparedStatement psStops = conn.prepareStatement(sqlStops);
+    //         psStops.setString(1, routeId);
+    //         ResultSet rsStops = psStops.executeQuery();
 
-            List<Station> stops = new ArrayList<>();
-            while (rsStops.next()) {
-                Station s = new Station(
-                        rsStops.getString("station_id"),
-                        rsStops.getString("name"),
-                        rsStops.getString("city"));
-                stops.add(s);
-            }
+    //         List<Station> stops = new ArrayList<>();
+    //         while (rsStops.next()) {
+    //             Station s = new Station(
+    //                     rsStops.getString("station_id"),
+    //                     rsStops.getString("name"),
+    //                     rsStops.getString("city"));
+    //             stops.add(s);
+    //         }
 
-            return new Route(
-                    routeId,
-                    originId,
-                    destinationId,
-                    convertStationToId(stops));
+    //         return new Route(
+    //                 routeId,
+    //                 originId,
+    //                 destinationId,
+    //                 convertStationToId(stops));
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     }
 
-        return null;
-    }
+    //     return null;
+    // }
 
     private List<String> convertStationToId(List<Station> stations) {
     List<String> ids = new ArrayList<>();

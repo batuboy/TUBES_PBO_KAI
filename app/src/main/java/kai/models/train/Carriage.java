@@ -26,4 +26,14 @@ public class Carriage extends Railcar {
     public int getCapacity(){
         return seat.size();
     }
+
+    public TrainClass getTrainClass() {
+        return trainClass;
+    }
+
+    public void setTrainClass(TrainClass trainClass) {
+        this.trainClass = trainClass;
+    }
+
+    
 }

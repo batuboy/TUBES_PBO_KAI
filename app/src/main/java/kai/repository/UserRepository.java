@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.mysql.cj.xdevapi.Statement;
+
 import kai.database.DbConnect;
 import kai.models.user.Passenger;
 import kai.models.user.User;
@@ -12,9 +14,10 @@ import kai.models.user.User;
 public class UserRepository {
 
     public boolean register(User user) {
-        String sql = "INSERT INTO user (nik, namaLengkap, nomorTelepon, email,  password) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO userdata (nik, namaLengkap, nomorTelepon, email, password) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection conn = DbConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DbConnect.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, user.getNik());
             ps.setString(2, user.getNamaLengkap());
@@ -24,18 +27,19 @@ public class UserRepository {
 
             ps.executeUpdate();
             return true;
-        } catch (Exception e) {
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return false;
     }
 
     public User login(String email, String password) {
-        String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+        String sql = "SELECT * FROM user WHERE email = ? AND password = ?";
 
-        try {
-            PreparedStatement ps = DbConnect.getConnection().prepareStatement(sql);
+        try (Connection conn = DbConnect.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setString(1, email);
             ps.setString(2, password);
 
@@ -45,43 +49,44 @@ public class UserRepository {
                 return new Passenger(
                         rs.getString("nik"),
                         rs.getString("namaLengkap"),
+                        rs.getString("nomorTelepon"),
                         rs.getString("email"),
-                        rs.getString("telepon"),
                         rs.getString("password"));
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null; // login failed
+        return null;
     }
 
     public boolean isEmailRegistered(String email) {
         String sql = "SELECT * FROM user WHERE email = ?";
 
-        try (Connection conn = DbConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DbConnect.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setString(1, email);
-            try (ResultSet rs = ps.executeQuery()) {
-                return rs.next(); // true if email exists
-            }
+
+            ResultSet rs = ps.executeQuery();
+            return rs.next(); // true if email exists
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
-
     }
 
-    public User getUserById(String id) {
+
+    public User getPassangerById(String id) {
         String sql = "SELECT * FROM user WHERE userId = ?";
 
-        try (Connection conn = DbConnect.getConnection()) {
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (Connection conn = DbConnect.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, id); // set the parameter
+            ps.setString(1, id);
+
             ResultSet rs = ps.executeQuery();
-
             if (rs.next()) {
-                // Construct User object from the result
                 return new Passenger(
                         rs.getString("nik"),
                         rs.getString("namaLengkap"),
@@ -91,10 +96,13 @@ public class UserRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); //
+            e.printStackTrace();
         }
-
-        return null; // not found
+        return null;
     }
+
+    // public boolean updateUser(User user){
+
+    // }
 
 }

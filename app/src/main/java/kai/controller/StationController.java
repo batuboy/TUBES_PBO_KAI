@@ -1,7 +1,10 @@
 package kai.controller;
 
 import kai.repository.StationRepository;
-import kai.models/
+
+import java.util.List;
+
+import kai.models.train.Station;
 
 public class StationController {
 
