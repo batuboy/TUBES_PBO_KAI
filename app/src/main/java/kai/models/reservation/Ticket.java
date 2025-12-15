@@ -1,24 +1,27 @@
 package kai.models.reservation;
 
+import kai.models.reservation.num.TicketStatus;
 import kai.models.train.Railcar;
-import kai.models.user.Passenger;
+import kai.models.user.User;
 
 public class Ticket {
     private String ticketId;
-    private Passenger passenger;
+    private User passenger;
     private Schedule schedule;
     private Railcar gerbong;
     private String seatNumber;
     private double price;
+    private TicketStatus status;
 
-    public Ticket(String ticketId, Passenger passenger, Schedule schedule, Railcar gerbong, String seatNumber,
-            double price) {
+    public Ticket(String ticketId, User passenger, Schedule schedule, Railcar gerbong, String seatNumber,
+            double price, TicketStatus status) {
         this.ticketId = ticketId;
         this.passenger = passenger;
         this.schedule = schedule;
         this.gerbong = gerbong;
         this.seatNumber = seatNumber;
         this.price = price;
+        this.status = status;
     }
 
     public String getTicketId() {
@@ -29,11 +32,11 @@ public class Ticket {
         this.ticketId = ticketId;
     }
 
-    public Passenger getPassenger() {
+    public User getPassenger() {
         return passenger;
     }
 
-    public void setPassenger(Passenger passenger) {
+    public void setPassenger(User passenger) {
         this.passenger = passenger;
     }
 
@@ -68,4 +71,11 @@ public class Ticket {
     public void setPrice(double price) {
         this.price = price;
     }    
+
+    public TicketStatus getStatus() {
+        return status;
+    }
+    public void setStatus(TicketStatus status) {
+        this.status = status;
+    }
 }

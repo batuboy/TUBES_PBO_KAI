@@ -58,19 +58,19 @@ public class UserRepository {
     }
 
     public boolean isEmailRegistered(String email) {
-    String sql = "SELECT * FROM user WHERE email = ?";
-    try (Connection conn = DbConnect.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setString(1, email);
-        try (ResultSet rs = ps.executeQuery()) {
-            return rs.next(); // true if email exists
+        String sql = "SELECT * FROM user WHERE email = ?";
+        try (Connection conn = DbConnect.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, email);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next(); // true if email exists
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+        return false;
     }
-    return false;
-    
-}
 
+    
 
 }

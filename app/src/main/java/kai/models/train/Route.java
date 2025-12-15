@@ -3,13 +3,12 @@ package kai.models.train;
 import java.util.List;
 
 public class Route {
-    private String routeId; // 
-    private int origin;
-    private int destination;  // jadi mending tetep jadi objek di java tapi di sql kita ambil FK nya aja? jadi ntar tuh SELECT name FROM stops wherre id = 1 ?? ntar returnnya Stops or route
-    //kayaknya engga deh jadi kan nanti di tabel route_stop ada route_id = 1 anggapannya dia Bandung, terus kita ada route_id yang ke 2 
-    private List<Integer> stops;  // stasiun yang dilewati 
+    private String routeId;
+    private Station origin;
+    private Station destination;  
+    private List<Station> stops;  // stasiun yang dilewati 
     
-    public Route(String routeId, int origin, int destination, List<Integer> stops) {
+    public Route(String routeId, Station origin, Station destination, List<Station> stops) {
         this.routeId = routeId;
         this.origin = origin;
         this.destination = destination;
@@ -24,27 +23,27 @@ public class Route {
         this.routeId = routeId;
     }
 
-    public int getOrigin() {
+    public Station getOrigin() {
         return origin;
     }
 
-    public void setOrigin(int origin) {
+    public void setOrigin(Station origin) {
         this.origin = origin;
     }
 
-    public int getDestination() {
+    public Station getDestination() {
         return destination;
     }
 
-    public void setDestination(int destination) {
+    public void setDestination(Station destination) {
         this.destination = destination;
     }
 
-    public List<Integer> getStops() {
+    public List<Station> getStops() {
         return stops;
     }
 
-    public void setStops(List<Integer> stops) {
+    public void setStops(List<Station> stops) {
         this.stops = stops;
     }
 
