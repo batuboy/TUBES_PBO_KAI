@@ -9,7 +9,8 @@ import kai.view.userView.MenuUserView;
 
 public class App {
     public static void main(String[] args) {
-        // new MenuUserView().setVisible(true);
+        new MenuUserView().setVisible(true);
+        // new MenuAdminView().setVisible(true);
         // new LoginView().setVisible(true);
 
         // TEST CONNECTION

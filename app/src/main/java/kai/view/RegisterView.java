@@ -25,8 +25,8 @@ public class RegisterView extends BaseView {
 
         panel.add(new JLabel("Full Name:"));
         panel.add(nameField);
-        panel.add(new JLabel("Email:"));
-        panel.add(emailField);
+        panel.add(new JLabel("Phone:"));
+        panel.add(phoneField);
         panel.add(new JLabel("Email:"));
         panel.add(emailField);
         panel.add(new JLabel("Password:"));
