@@ -29,11 +29,11 @@ public class ScheduleController {
         }
     }
 
-    public List<Schedule> getAllSchedules() {
+    public List<Schedule> viewAllSchedules() {
         return scheduleRepository.getAllSchedule();
     } 
 
-    public Schedule getScheduleById(String scheduleId) {
+    public Schedule viewScheduleDetail(String scheduleId) {
         return scheduleRepository.getScheduleById(scheduleId);
     }
 }
