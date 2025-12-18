@@ -9,17 +9,15 @@ public class Route {
     private String routeId;
     private Station origin;
     private Station destination;
-    private List<RouteStop> stops;
-
+    
     public Route(String routeId,
                  Station origin,
-                 Station destination,
-                 List<RouteStop> stops) {
+                 Station destination) {
 
         this.routeId = routeId;
         this.origin = origin;
         this.destination = destination;
-        this.stops = stops;
+        // this.stops = stops;
     }
 
 
@@ -30,4 +28,29 @@ public class Route {
     public void setRouteId(String routeId) {
         this.routeId = routeId;
     }    
+
+    public Station getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(Station origin) {
+        this.origin = origin;
+    }
+
+    public Station getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Station destination) {
+        this.destination = destination;
+    }
+
+
+    @Override
+    public String toString() {
+        return origin + " -> " + destination;
+    }
+
+    
+
 }

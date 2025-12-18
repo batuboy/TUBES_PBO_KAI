@@ -5,7 +5,7 @@ import java.util.List;
 import kai.models.train.num.RailcarType;
 import kai.models.train.num.TrainClass;
 import kai.models.train.num.Status;
-import kai.models.train.num.TrainType;
+import kai.models.train.num.LocomotiveType;
 
 public class Railcar {
     private String railcarId; 
@@ -14,6 +14,12 @@ public class Railcar {
     private Status status;
     
     public Railcar(String railcarId, String name, RailcarType type, Status status) {
+        this.railcarId = railcarId;
+        this.name = name;
+        this.status = status;
+    }
+
+    public Railcar(String railcarId, String name, Status status){
         this.railcarId = railcarId;
         this.name = name;
         this.status = status;

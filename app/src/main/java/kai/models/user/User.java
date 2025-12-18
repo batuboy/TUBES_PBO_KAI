@@ -1,5 +1,7 @@
 package kai.models.user;
 
+import kai.models.user.num.Position;
+
 public abstract class User {
     private String userId;
     private String nik;
@@ -7,14 +9,20 @@ public abstract class User {
     private String nomorTelepon;
     private String email;
     private String password;
+    private Position position;
 
-    public User(String nik, String namaLengkap, String nomorTelepon, String email, String password) {
+    public User(String userId, String nik, String namaLengkap, String nomorTelepon, String email, String password,
+            Position passenger) {
+        this.userId = userId;
         this.nik = nik;
         this.namaLengkap = namaLengkap;
         this.nomorTelepon = nomorTelepon;
         this.email = email;
         this.password = password;
+        this.position = passenger;
     }
+
+    
 
     public String getUserId() {
         return userId;
@@ -62,6 +70,11 @@ public abstract class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    public Position getPosition() {
+        return position;
     }
  
 }

@@ -1,20 +1,18 @@
 package kai.models.train;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 
 import kai.models.train.num.Status;
-import kai.models.train.num.TrainType;
+import kai.models.train.num.LocomotiveType;
 
 public class DieselTrain extends Locomotive {
     private double fuelCapacity; // kapasitas bahan bakar liter
     private double fuelConsumptionPerKm; // liter per km
     
-    public DieselTrain(String trainId, String name, int traction, Status status, double fuelCapacity,
-            double fuelConsumptionPerKm) {
-        super(trainId, name, traction, status, TrainType.DIESEL);
+    public DieselTrain(String locomotiveId, String name, Status status,
+            LocomotiveType trainType, double fuelCapacity, double fuelConsumptionPerKm) {
+
+        super(locomotiveId, name, status, trainType);
         this.fuelCapacity = fuelCapacity;
         this.fuelConsumptionPerKm = fuelConsumptionPerKm;
     }
@@ -35,4 +33,5 @@ public class DieselTrain extends Locomotive {
         this.fuelConsumptionPerKm = fuelConsumptionPerKm;
     }
 
+    
 } 

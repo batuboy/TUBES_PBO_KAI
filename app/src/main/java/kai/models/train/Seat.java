@@ -36,5 +36,9 @@ public class Seat {
 
     public void setTc(TrainClass tc) {
         this.tc = tc;
-    }    
+    }
+
+    
+
+    
 }

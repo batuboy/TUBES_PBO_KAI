@@ -1,15 +1,14 @@
 package kai.view;
 
 import javax.swing.*;
-
-import kai.controller.LoginController;
+import java.awt.*;
+import kai.controller.UserController;
 import kai.models.user.Admin;
-import kai.models.user.Employee;
+import kai.models.user.Passenger;
 import kai.models.user.User;
+import kai.models.user.num.Position;
 import kai.view.adminView.MenuAdminView;
 import kai.view.userView.MenuUserView;
-import java.awt.*;
-
 
 public class LoginView extends BaseView {
 
@@ -17,14 +16,13 @@ public class LoginView extends BaseView {
     private JPasswordField passwordField;
     private JButton loginButton, registerButton;
 
-    private LoginController controller;
+    private UserController userController;
 
     public LoginView() {
         super("KAI App - Login", 400, 500);
+        userController = new UserController();
 
-        controller = new LoginController();
-
-        // form panel
+        // Form panel
         JPanel formPanel = new JPanel(new GridLayout(6, 1, 10, 10));
         formPanel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
 
@@ -42,27 +40,39 @@ public class LoginView extends BaseView {
 
         add(formPanel, BorderLayout.CENTER);
 
+        // ===== Login action =====
         loginButton.addActionListener(e -> {
-            String email = emailField.getText();
-            String password = new String(passwordField.getPassword());
+            String email = emailField.getText().trim();
+            String password = new String(passwordField.getPassword()).trim();
 
-            User user = controller.login(email, password);
+            if(email.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter email and password!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-            if (user != null) {
-                if (user instanceof Admin) {
+            User user = userController.login(email, password);
+            if(user != null) {
+                // Redirect based on email role
+                if(user.getPosition() == Position.ADMIN) {
                     new MenuAdminView().setVisible(true);
-                } else {
+                } else if(user.getPosition() == Position.PASSENGER) {
                     new MenuUserView().setVisible(true);
                 }
                 dispose();
             } else {
-                JOptionPane.showMessageDialog(this, "Invalid email or password!");
+                JOptionPane.showMessageDialog(this, "Invalid email or password!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
+        // ===== Register action =====
         registerButton.addActionListener(e -> {
             new RegisterView().setVisible(true);
             dispose();
         });
+    }
+
+    // Optional: run LoginView directly
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new LoginView().setVisible(true));
     }
 }

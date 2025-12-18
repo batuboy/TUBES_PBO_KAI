@@ -10,6 +10,14 @@ public class Station {
         this.name = name;
         this.city = city;
     }
+
+    
+    public Station(String stationId, String name) {
+        this.stationId = stationId;
+        this.name = name;
+    }
+
+
     public String getStationId() {
         return stationId;
     }
@@ -27,6 +35,12 @@ public class Station {
     }
     public void setCity(String city) {
         this.city = city;
+    }
+    @Override
+    public String toString() {
+        return name;
     }   
+
+    
 }
 

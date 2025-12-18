@@ -8,9 +8,29 @@ import kai.models.train.*;
 import kai.repository.*;
 
 public class TrainController {
-    // private List<Locomotive> locomotiveList;
-    // private List<Railcar> railcarsList;
-    // private List<Station> stationsList;
-    // private List<Route> routesList;
+    private final LocomotiveRepository locomotiveRepository;
 
+    public TrainController() {
+        this.locomotiveRepository = new LocomotiveRepository();
+    }
+
+    public List<Locomotive> getAllLocomotives() {
+        return locomotiveRepository.getAllLocomotives();
+    }
+
+    public Locomotive getLocomotiveById(String id) {
+        return locomotiveRepository.getLocomotiveById(id);
+    }
+
+    // public void addTrain(Locomotive train) {
+    //     locomotiveRepository.addLocomotive(train);
+    // }
+
+    public void updateLocomotive(Locomotive train) {
+        locomotiveRepository.updateLocomotive(train);
+    }
+
+    public void deleteTrain(String id) {
+        locomotiveRepository.deletelocomotive(id);
+    }
 }
