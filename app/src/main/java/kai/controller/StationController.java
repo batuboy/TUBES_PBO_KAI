@@ -1,3 +1,9 @@
+package kai.controller;
+
+import kai.models.train.Station;
+import kai.repository.StationRepository;
+import java.util.List;
+
 public class StationController {
 
     private final StationRepository stationRepo;
@@ -5,6 +11,7 @@ public class StationController {
     public StationController(){
         stationRepo = new StationRepository();
     }
+
     // Add a new station
     public void addStation(Station station){
         stationRepo.addStation(station);                

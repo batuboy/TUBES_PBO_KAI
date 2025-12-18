@@ -65,10 +65,6 @@ public class RailCarRepository{
 
     }
 
-    public void addRailCar(Carriage carriage){
-        // Similar to addRailCar but specific to carriages if needed
-    }
-
     public Railcar getRailcarById(String railcarId){
         String sqlRailcar = "SELECT * FROM railcar WHERE railcar_id = ?";
         String sqlSeats = "SELECT seat_number FROM railcar_seats WHERE railcar_id = ?";
@@ -80,9 +76,9 @@ public class RailCarRepository{
 
             if (rsRailcar.next()){
                 String name = rsRailcar.getString("name");
-                TrainClass trainClass = Railcar.TrainClass.valueOf(rsRailcar.getString("train_class"));
+                TrainClass trainClass = TrainClass.valueOf(rsRailcar.getString("train_class"));
                 int capacity = rsRailcar.getInt("capacity");
-                Status status = status.valueOf(rsRailcar.getString("status"));
+                Status status = Status.valueOf(rsRailcar.getString("status"));
             }            
         }catch (Exception e){
             e.printStackTrace();

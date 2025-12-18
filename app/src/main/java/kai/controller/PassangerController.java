@@ -1,9 +1,13 @@
+package kai.controller;
+import kai.models.user.Passenger;
+import kai.repository.UserRepository;
+
 public class PassangerController{
     
     private final UserRepository userRepo;
 
     public PassangerController(){
-        userRepo = new userRepo();
+        userRepo = new UserRepository();
     }
 
      public boolean register(String nik, String fullName, String email, String phone, String password) {
@@ -19,4 +23,6 @@ public class PassangerController{
     public Passenger login(String email, String password) {
         return (Passenger) userRepo.login(email, password);
     }
+
+    public 
 }

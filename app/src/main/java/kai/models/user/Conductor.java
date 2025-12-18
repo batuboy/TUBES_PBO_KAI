@@ -1,21 +1,22 @@
 package kai.models.user;
 
 import kai.models.user.num.Position;
+import kai.models.train.*;
 
 public class Conductor extends Employee {
     private Station stationAssigned;
 
     public Conductor(String userId, String nik, String namaLengkap, String nomorTelepon, String email, String password,
-            String employeeId, Position position, double salary, Station areaAssigned) {
+            String employeeId, Position position, double salary, Station stationAssigned) {
         super(userId, nik, namaLengkap, nomorTelepon, email, password, employeeId, position, salary);
-        this.areaAssigned = areaAssigned;
+        this.stationAssigned = stationAssigned;
     }
 
     public Station getAreaAssigned() {
-        return areaAssigned;
+        return stationAssigned;
     }
 
-    public void setAreaAssigned(Station areaAssigned) {
-        this.areaAssigned = areaAssigned;
+    public void setAreaAssigned(Station stationAssigned) {
+        this.stationAssigned = stationAssigned;
     }    
 }

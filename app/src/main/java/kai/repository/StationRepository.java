@@ -1,9 +1,13 @@
 package kai.repository;
+
+import java.util.ArrayList;
 import kai.database.DbConnect;
 import kai.models.train.Station;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.util.List;
 
 public class StationRepository {
 
@@ -74,7 +78,7 @@ public class StationRepository {
     public void updateStation(Station station){
         String sql = "UPDATE station SET name = ?, city = ? WHERE station_id = ? ";
 
-        try(PreparedStateent ps = conn.prepareStatement(sql)){
+        try(PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setString(1, station.getName());
             ps.setString(2, station.getCity());
             ps.setString(3, station.getStationId());

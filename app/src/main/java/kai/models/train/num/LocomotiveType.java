@@ -1,5 +1,5 @@
 package kai.models.train.num;
 
-public enum TrainType {
+public enum LocomotiveType {
     DIESEL, ELECTRIC, STEAM
 }

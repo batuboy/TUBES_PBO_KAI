@@ -5,7 +5,7 @@ import java.util.List;
 import kai.models.train.num.RailcarType;
 import kai.models.train.num.TrainClass;
 import kai.models.train.num.Status;
-import kai.models.train.num.TrainType;
+import kai.models.train.num.LocomotiveType;
 
 public abstract class Railcar {
     private String railcarId; 
