@@ -1,6 +1,8 @@
 package kai.view.userView;
 
 import javax.swing.*;
+
+import kai.models.user.User;
 import kai.view.BaseView;
 import kai.view.LoginView;
 import java.awt.*;
@@ -9,14 +11,14 @@ public class MenuUserView extends BaseView {
 
     private JPanel mainPanel;
     private CardLayout cardLayout;
+    private User user;
 
-    public MenuUserView() {
+    public MenuUserView(User user) {
         super("KAI App - User Menu", 600, 400);
-
+        this.user = user;
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        // --- Main Menu Panel ---
         JPanel menuPanel = new JPanel(new GridLayout(4, 1, 10, 10));
         menuPanel.setBorder(BorderFactory.createEmptyBorder(50, 100, 50, 100));
 
@@ -30,12 +32,10 @@ public class MenuUserView extends BaseView {
         menuPanel.add(cancelBtn);
         menuPanel.add(logoutBtn);
 
-        // --- Sub-panels ---
-        BookTicketPanel bookPanel = new BookTicketPanel();
-        HistoryTicketPanel historyPanel = new HistoryTicketPanel();
-        CancelTicketPanel cancelPanel = new CancelTicketPanel();
+        BookTicketPanel bookPanel = new BookTicketPanel(user);
+        HistoryTicketPanel historyPanel = new HistoryTicketPanel(this.user.getUserId());
+        CancelTicketPanel cancelPanel = new CancelTicketPanel(user.getUserId());
 
-        // Add panels to CardLayout
         mainPanel.add(menuPanel, "MENU");
         mainPanel.add(bookPanel, "BOOK");
         mainPanel.add(historyPanel, "VIEW");
@@ -43,12 +43,17 @@ public class MenuUserView extends BaseView {
 
         add(mainPanel, BorderLayout.CENTER);
 
-        // --- Button actions ---
         bookBtn.addActionListener(e -> cardLayout.show(mainPanel, "BOOK"));
-        viewBtn.addActionListener(e -> cardLayout.show(mainPanel, "VIEW"));
-        cancelBtn.addActionListener(e -> cardLayout.show(mainPanel, "CANCEL"));
+        viewBtn.addActionListener(e -> {
+            cardLayout.show(mainPanel, "VIEW");
+            historyPanel.refresh(user.getUserId());
+        });
+        cancelBtn.addActionListener(e -> {
+            cardLayout.show(mainPanel, "CANCEL");
+            cancelPanel.refresh();
+        });
 
-        logoutBtn.addActionListener(e -> {
+        logoutBtn.addActionListener(e -> { 
             new LoginView().setVisible(true);
             dispose();
         });

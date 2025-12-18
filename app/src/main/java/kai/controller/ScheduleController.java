@@ -77,7 +77,7 @@ public class ScheduleController {
             String serviceName,
             String serviceNo,
             double price) {
-        return new Schedule(null, loco, route, departure,arrival, serviceName, serviceNo, price);
+        return new Schedule(null, loco, route, departure, arrival, serviceName, serviceNo, price);
     }
 
     public List<ScheduleRailcar> createScheduleRailcars(String scheduleId, List<RailcarSelection> selectedRailcars) {
@@ -88,13 +88,10 @@ public class ScheduleController {
         return railcarList;
     }
 
-    
-    // 6️⃣ Add schedule + railcars to DB
     public boolean addSchedule(Schedule schedule, List<ScheduleRailcar> railcars) {
         return scheduleRepo.addSchedule(schedule, railcars);
     }
 
-    // Helper class to hold selected railcar info from table
     public static class RailcarSelection {
         private String railcarId;
         private int order;
@@ -113,6 +110,24 @@ public class ScheduleController {
         }
     }
 
+    public List<Schedule> searchSchedules(String asal, String tujuan, String tanggal) {
+        List<Schedule> semua = scheduleRepo.getAllSchedules();
+        List<Schedule> hasil = new ArrayList<>();
+
+        for (Schedule s : semua) {
+            boolean cocokAsal = s.getRoute().getOrigin().getName().equalsIgnoreCase(asal);
+            boolean cocokTujuan = s.getRoute().getDestination().getName().equalsIgnoreCase(tujuan);
+
+            String tglSchedule = s.getDepartureTime().toLocalDate().toString();
+            boolean cocokTanggal = tglSchedule.equals(tanggal);
+
+            if (cocokAsal && cocokTujuan && cocokTanggal) {
+                hasil.add(s);
+            }
+        }
+        return hasil;
+    }
+
     public List<Schedule> getAllSchedules() {
         return scheduleRepo.getAllSchedules();
     }
@@ -121,7 +136,6 @@ public class ScheduleController {
         return scheduleRepo.getRailcarsForSchedule(scheduleId);
     }
 
-    // 5️⃣ Update schedule
     public boolean updateSchedule(Schedule schedule, List<ScheduleRailcar> railcars) {
         if (schedule == null || railcars == null)
             return false;

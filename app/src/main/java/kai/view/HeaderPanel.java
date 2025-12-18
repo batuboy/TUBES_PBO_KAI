@@ -13,12 +13,12 @@ public class HeaderPanel extends JPanel {
         setBackground(new Color(0, 102, 204)); // KAI blue
 
         // KAI logo
-        ImageIcon logoIcon = new ImageIcon(getClass().getResource("/kai/view/resources/kai_logo.png"));
+        // ImageIcon logoIcon = new ImageIcon(getClass().getResource("/kai/view/resources/kai_logo.png"));
 
-        JLabel logoLabel = new JLabel(logoIcon);
-        logoLabel.setHorizontalAlignment(JLabel.CENTER);
+        // JLabel logoLabel = new JLabel(logoIcon);
+        // logoLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        add(logoLabel, BorderLayout.CENTER);
+        // add(logoLabel, BorderLayout.CENTER);
         setPreferredSize(new Dimension(800, 100));
     }
 }

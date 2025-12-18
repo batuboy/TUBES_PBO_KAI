@@ -1,24 +1,19 @@
 package kai.repository;
-
-import java.util.ArrayList;
 import kai.database.DbConnect;
 import kai.models.train.Station;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StationRepository {
 
-    private final Connection conn;
+    private final Connection conn = DbConnect.getConnection();
 
-    public StationRepository(){
-        conn = DbConnect.getConnection();
-    }    
-
-    public void addStation(Station station){
-        String sql = "INSERT INTO station (station_id, name, city) VALUES (?, ?, ?)";
+    public void addStation(Station station) {
+        String sql = "INSERT INTO station (stationId, name, city) VALUES (?, ?, ?)";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, station.getStationId());
@@ -30,71 +25,71 @@ public class StationRepository {
         }
     }
 
-    public Station getStationById(String stationId){
+    public Station getStationById(String stationId) {
         String sql = "SELECT * FROM station WHERE stationId = ?";
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)){
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, stationId);
-            ResultSet rs = ps.executeQuery();      
+            ResultSet rs = ps.executeQuery();
 
-            if(rs.next()){
+            if (rs.next()) {
                 return new Station(
-                    rs.getString("stationId"),
-                    rs.getString("name"),
-                    rs.getString("city")
-                );
-            }     
-        }
-        catch (SQLException e) {
+                        rs.getString("stationId"),
+                        rs.getString("name"),
+                        rs.getString("city"));
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return null;
     }
 
-    public List<Station> getAllStations(){
+    public List<Station> getAllStations() {
         String sql = "SELECT * FROM station";
         List<Station> list = new ArrayList<>();
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)){
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
 
-            while(rs.next()){
-                Station station = new Station
-                (rs.getString("station_id"), 
-                rs.getString("name"), 
-                rs.getString("city"));
+            while (rs.next()) {
+                Station station = new Station(rs.getString("stationId"),
+                        rs.getString("name"),
+                        rs.getString("city"));
 
                 list.add(station);
             }
-            
-        }
-        catch(SQLException e){
-                e.printStackTrace();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return list;
     }
 
-    public void updateStation(Station station){
-        String sql = "UPDATE station SET name = ?, city = ? WHERE station_id = ? ";
+    public boolean updateStation(Station station) {
+        String sql = "UPDATE station SET name = ?, city = ? WHERE stationId = ? ";
 
-        try(PreparedStatement ps = conn.prepareStatement(sql)){
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, station.getName());
             ps.setString(2, station.getCity());
             ps.setString(3, station.getStationId());
             ps.executeUpdate();
-        } catch(SQLException e){
+
+            int rows = ps.executeUpdate();
+            return rows >0 ;
+        } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
-    public void deleteStation(String stationId){
-        String sql = "DELETE FROM station WHERE station_id = ?";
+    public void deleteStation(String stationId) {
+        String sql = "DELETE FROM station WHERE stationId = ?";
 
-        try(PreparedStatement ps = conn.prepareStatement(sql)){
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, stationId);
             ps.executeUpdate();
-        } catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

@@ -53,12 +53,12 @@ public class RouteRepository {
             ps.setString(1, routeId);
             ResultSet rs = ps.executeQuery();
 
-            StationRepository stationRepo = new StationRepository();
-
-            Station origin = stationRepo.getStationById(rs.getString("originId"));
-            Station destination = stationRepo.getStationById(rs.getString("destinationId"));
-
+            
             if (rs.next()) {
+                StationRepository stationRepo = new StationRepository();
+    
+                Station origin = stationRepo.getStationById(rs.getString("originId"));
+                Station destination = stationRepo.getStationById(rs.getString("destinationId"));
                 return new Route(
                         rs.getString("routeId"),
                         origin,

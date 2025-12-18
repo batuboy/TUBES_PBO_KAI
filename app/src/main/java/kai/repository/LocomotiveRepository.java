@@ -150,16 +150,19 @@ public class LocomotiveRepository {
     }
 
     public Locomotive getLocomotiveById(String id) {
-        String sql = "SELECT * FROM train WHERE train_id = ?";
+        String sql = "SELECT * FROM locomotive WHERE locomotiveId = ?";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                LocomotiveType type = LocomotiveType.valueOf(rs.getString("train_type"));
+                LocomotiveType type = LocomotiveType.valueOf(rs.getString("type"));
                 Status status = Status.valueOf(rs.getString("status"));
                 String name = rs.getString("name");
+
+                return new Locomotive(id, name, status, type);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();

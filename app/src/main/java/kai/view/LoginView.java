@@ -51,14 +51,12 @@ public class LoginView extends BaseView {
             }
 
             User user = userController.login(email, password);
-            if(user != null) {
-                // Redirect based on email role
-                if(user.getPosition() == Position.ADMIN) {
-                    new MenuAdminView().setVisible(true);
-                } else if(user.getPosition() == Position.PASSENGER) {
-                    new MenuUserView().setVisible(true);
-                }
-                dispose();
+            if(user != null) { 
+                if(user.getPosition() == Position.ADMIN) { 
+                    new MenuAdminView().setVisible(true); 
+                } else if(user.getPosition() == Position.PASSENGER) { 
+                    new MenuUserView(user).setVisible(true); 
+                } dispose(); 
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid email or password!", "Error", JOptionPane.ERROR_MESSAGE);
             }

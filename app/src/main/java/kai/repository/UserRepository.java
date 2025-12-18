@@ -53,12 +53,11 @@ public class UserRepository {
         return false;
     }
 
-    
     public User login(String email, String password) {
         String sql = "SELECT * FROM userdata WHERE email = ? AND password = ?";
 
         try (Connection conn = DbConnect.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, email);
             ps.setString(2, password);
@@ -73,7 +72,7 @@ public class UserRepository {
                 String pass = rs.getString("password");
 
                 // check email domain
-                if(email.endsWith("@kai.id")) {
+                if (email.endsWith("@kai.id")) {
                     // Admin object (salary can be default 0 or fetched from admin table)
                     return new Admin(userId, nik, fname, phone, email, pass);
                 } else {
@@ -104,29 +103,30 @@ public class UserRepository {
         return false;
     }
 
-    // public User getPassangerById(String id) {
-    // String sql = "SELECT * FROM user WHERE userId = ?";
+    public User getPassengerById(String id) {
+        String sql = "SELECT * FROM userdata WHERE userId = ?";
 
-    // try (Connection conn = DbConnect.getConnection();
-    // PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DbConnect.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
-    // ps.setString(1, id);
+            ps.setString(1, id);
 
-    // ResultSet rs = ps.executeQuery();
-    // if (rs.next()) {
-    // return new Passenger(
-    // rs.getString("nik"),
-    // rs.getString("namaLengkap"),
-    // rs.getString("nomorTelepon"),
-    // rs.getString("email"),
-    // rs.getString("password"));
-    // }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Passenger(
+                        rs.getString("userId"),
+                        rs.getString("nik"),
+                        rs.getString("fname"),
+                        rs.getString("phone"),
+                        rs.getString("email"),
+                        rs.getString("password"));
+            }
 
-    // } catch (SQLException e) {
-    // e.printStackTrace();
-    // }
-    // return null;
-    // }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     // public boolean updateUser(User user){
 

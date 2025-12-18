@@ -85,6 +85,52 @@ public class ScheduleRepository {
         }
     }
 
+    public Schedule getScheduleById(String scheduleId) {
+        String sql = "SELECT s.scheduleId, s.serviceNo, s.serviceName, s.price, " +
+                "s.departureTime, s.arrivalTime, " +
+                "r.routeId, o.stationId AS originId, o.name AS originName, " +
+                "d.stationId AS destinationId, d.name AS destinationName, " +
+                "l.locomotiveId, l.name AS locomotiveName " +
+                "FROM schedule s " +
+                "JOIN route r ON s.routeId = r.routeId " +
+                "JOIN station o ON r.originId = o.stationId " +
+                "JOIN station d ON r.destinationId = d.stationId " +
+                "JOIN locomotive l ON s.locomotiveId = l.locomotiveId " +
+                "WHERE s.scheduleId = ?";
+
+        try (Connection conn = DbConnect.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, scheduleId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                // Route
+                Station origin = new Station(rs.getString("originId"), rs.getString("originName"));
+                Station destination = new Station(rs.getString("destinationId"), rs.getString("destinationName"));
+                Route route = new Route(rs.getString("routeId"), origin, destination);
+
+                // Locomotive
+                Locomotive loco = new Locomotive(rs.getString("locomotiveId"), rs.getString("locomotiveName"), null);
+
+                // Schedule
+                return new Schedule(
+                        rs.getString("scheduleId"),
+                        loco,
+                        route,
+                        rs.getTimestamp("departureTime").toLocalDateTime(),
+                        rs.getTimestamp("arrivalTime").toLocalDateTime(),
+                        rs.getString("serviceName"),
+                        rs.getString("serviceNo"),
+                        rs.getDouble("price"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public List<Schedule> getAllSchedules() {
         List<Schedule> schedules = new ArrayList<>();
 
