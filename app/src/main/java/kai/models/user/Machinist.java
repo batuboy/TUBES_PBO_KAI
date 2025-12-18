@@ -3,13 +3,15 @@ package kai.models.user;
 import kai.models.user.num.Position;
 
 public class Machinist extends Employee {
-    private String licenseNumber;
 
     public Machinist(String userId, String nik, String namaLengkap, String nomorTelepon, String email, String password,
-            String employeeId, Position position, double salary, String licenseNumber) {
-        super(nik, namaLengkap, nomorTelepon, email, password, employeeId, position, salary);
-        this.licenseNumber = licenseNumber;
+            Position passenger, String employeeId, double salary) {
+        super(userId, nik, namaLengkap, nomorTelepon, email, password, passenger, employeeId, salary);
+        //TODO Auto-generated constructor stub
     }
+
+    private String licenseNumber;
+
 
     public String getLicenseNumber() {
         return licenseNumber;

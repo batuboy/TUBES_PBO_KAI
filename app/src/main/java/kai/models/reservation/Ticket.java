@@ -1,24 +1,27 @@
 package kai.models.reservation;
 
+import kai.models.reservation.num.TicketStatus;
 import kai.models.train.Railcar;
-import kai.models.user.Passenger;
+import kai.models.user.User;
 
 public class Ticket {
     private String ticketId;
-    private Passenger passenger;
+    private User passenger;
     private Schedule schedule;
-    private Railcar gerbong;
+    private TicketStatus status;
     private String seatNumber;
-    private double price;
 
-    public Ticket(String ticketId, Passenger passenger, Schedule schedule, Railcar gerbong, String seatNumber,
-            double price) {
+    public Ticket(String ticketId, User passenger, Schedule schedule, String seatNumber,
+            TicketStatus status) {
         this.ticketId = ticketId;
         this.passenger = passenger;
         this.schedule = schedule;
-        this.gerbong = gerbong;
         this.seatNumber = seatNumber;
-        this.price = price;
+        this.status = status;
+    }
+
+    public Ticket(String string, User passengerById, TicketStatus valueOf, Schedule scheduleById, String string2) {
+        //TODO Auto-generated constructor stub
     }
 
     public String getTicketId() {
@@ -29,11 +32,11 @@ public class Ticket {
         this.ticketId = ticketId;
     }
 
-    public Passenger getPassenger() {
+    public User getPassenger() {
         return passenger;
     }
 
-    public void setPassenger(Passenger passenger) {
+    public void setPassenger(User passenger) {
         this.passenger = passenger;
     }
 
@@ -45,14 +48,6 @@ public class Ticket {
         this.schedule = schedule;
     }
 
-    public Railcar getGerbong() {
-        return gerbong;
-    }
-
-    public void setGerbong(Railcar gerbong) {
-        this.gerbong = gerbong;
-    }
-
     public String getSeatNumber() {
         return seatNumber;
     }
@@ -61,11 +56,11 @@ public class Ticket {
         this.seatNumber = seatNumber;
     }
 
-    public double getPrice() {
-        return price;
-    }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }    
+    public TicketStatus getStatus() {
+        return status;
+    }
+    public void setStatus(TicketStatus status) {
+        this.status = status;
+    }
 }

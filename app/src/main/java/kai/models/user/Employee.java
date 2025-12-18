@@ -2,18 +2,25 @@ package kai.models.user;
 
 import kai.models.user.num.Position;
 
-public class Employee extends User {
+public abstract class Employee extends User {
+    
     private String employeeId;
-    private Position position;   
     private double salary;
     
-    public Employee(String nik, String namaLengkap, String nomorTelepon, String email, String password,
-            String employeeId, Position position, double salary) {
-        super(nik, namaLengkap, nomorTelepon, email, password);
+    public Employee(String userId, String nik, String namaLengkap, String nomorTelepon, String email, String password,
+            Position passenger, String employeeId, double salary) {
+        super(userId, nik, namaLengkap, nomorTelepon, email, password, passenger);
+        //TODO Auto-generated constructor stub
         this.employeeId = employeeId;
-        this.position = position;
         this.salary = salary;
-    }
+    }    
+
+    
+    public Employee(String userId, String nik, String namaLengkap, String nomorTelepon, String email, String password,
+            Position passenger) {
+        super(userId, nik, namaLengkap, nomorTelepon, email, password, passenger);
+        
+    }    
 
     public String getEmployeeId() {
         return employeeId;
@@ -23,13 +30,6 @@ public class Employee extends User {
         this.employeeId = employeeId;
     }
 
-    public String getPosition() {
-        return String.valueOf(position);
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
-    }
 
     public double getSalary() {
         return salary;

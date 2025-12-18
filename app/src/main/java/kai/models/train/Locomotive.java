@@ -3,28 +3,33 @@ package kai.models.train;
 import java.util.List;
 
 import kai.models.train.num.Status;
-import kai.models.train.num.TrainType;
+import kai.models.train.num.LocomotiveType;
 
 public class Locomotive {
     private String locomotiveId;
     private String name;
-    private List<Railcar> coaches;  // daftar gerbong
-    private TrainType trainType;
+    private LocomotiveType locomotiveType;
     private Status status; 
     
-    public Locomotive(String locomotoviId, String name, List<Railcar> coaches, Status status, TrainType trainType) {
-        this.trainType = trainType;
-        this.locomotiveId = locomotoviId;
+    public Locomotive(String locomotiveId, String name, Status status, LocomotiveType locomotiveType) {
+        this.locomotiveType = locomotiveType;
+        this.locomotiveId = locomotiveId;
         this.name = name;
-        this.coaches = coaches;
+       this.status = status;
+    }
+
+    public Locomotive(String locomotiveId, String name, Status status) {
+        //TODO Auto-generated constructor stub
+        this.locomotiveId = locomotiveId;
+        this.name = name;
         this.status = status;
     }
 
-    public String getLocotomiveId() {
+    public String getLocomotiveId() {
         return locomotiveId;
     }
 
-    public void setLocotomiveId(String locomotoviId) {
+    public void setLocomotiveId(String locomotoviId) {
         this.locomotiveId = locomotoviId;
     }
 
@@ -36,29 +41,26 @@ public class Locomotive {
         this.name = name;
     }
 
-    public List<Railcar> getCoaches() {
-        return coaches;
-    }
-
-    public void setCoaches(List<Railcar> coaches) {
-        this.coaches = coaches;
-    }
-
-    public String getStatus() {
-        return status.toString();
+    public Status getStatus() {
+        return status;
     }
 
     public void setStatus(Status status) {
         this.status = status;
     }    
 
-
-    public String getTrainType() {
-        return trainType.toString();
+    public String getLocomotiveType() {
+        return locomotiveType.toString();
     }
 
-    public void setTrainType(TrainType trainType) {
-        this.trainType = trainType;
+    public void setLocmotiveType(LocomotiveType trainType) {
+        this.locomotiveType = trainType;
     }
+
+    @Override
+    public String toString() {
+        return locomotiveId + " | " + name;
+    }
+
 }
   

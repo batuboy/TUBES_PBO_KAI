@@ -23,6 +23,8 @@ dependencies {
     implementation("mysql:mysql-connector-java:8.0.33")
     // This dependency is used by the application.
     implementation(libs.guava)
+    implementation ("com.github.lgooddatepicker:LGoodDatePicker:11.2.1")
+    // other dependencies...
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

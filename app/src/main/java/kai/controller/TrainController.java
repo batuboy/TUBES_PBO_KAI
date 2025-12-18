@@ -8,32 +8,29 @@ import kai.models.train.*;
 import kai.repository.*;
 
 public class TrainController {
-    // private List<Locomotive> locomotiveList;
-    // private List<Railcar> railcarsList;
-    // private List<Station> stationsList;
-    // private List<Route> routesList;
-
-    private final ITrainRepository trainRepo;
+    private final LocomotiveRepository locomotiveRepository;
 
     public TrainController() {
-        this.trainRepo = new TrainRepositoryImpl();
+        this.locomotiveRepository = new LocomotiveRepository();
     }
 
-
-    public void addTrain(Locomotive train){
-        trainRepo.addLocomotive(train);
-    }
-    public Locomotive getTrainById(String id){
-        return trainRepo.getLocomotiveById(id);
+    public List<Locomotive> getAllLocomotives() {
+        return locomotiveRepository.getAllLocomotives();
     }
 
-    public List<Locomotive> getAllTrains(){
-        return trainRepo.getAllLocomotive();
+    public Locomotive getLocomotiveById(String id) {
+        return locomotiveRepository.getLocomotiveById(id);
     }
-    public void updateTrain(Locomotive train){
-        trainRepo.updateLocomotive(train);
+
+    // public void addTrain(Locomotive train) {
+    //     locomotiveRepository.addLocomotive(train);
+    // }
+
+    public void updateLocomotive(Locomotive train) {
+        locomotiveRepository.updateLocomotive(train);
     }
-    public void deleteTrain(String id){
-        trainRepo.deletelocomotive(id);
+
+    public void deleteTrain(String id) {
+        locomotiveRepository.deletelocomotive(id);
     }
 }
